@@ -128,13 +128,13 @@ class Body extends Component {
       <div>
         <Container maxWidth="lg">
           <Grid container alignItems="center" style={{ marginTop: 20 }}>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Slider slider={this.slider}></Slider>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Speed speed={this.speed}></Speed>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5} lg={5}>
               <div>
                 <Buttons
                   variant={["outlined", "outlined", "outlined"]}
@@ -143,7 +143,7 @@ class Body extends Component {
                 ></Buttons>
               </div>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={12} md={1} lg={1}>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -154,6 +154,7 @@ class Body extends Component {
                   }
                 }}
                 color="secondary"
+                style={{ marginBottom: 10 }}
               >
                 Start
               </Button>

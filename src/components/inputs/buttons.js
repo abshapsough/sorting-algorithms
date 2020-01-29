@@ -24,7 +24,7 @@ export default function Buttons(props) {
           <Button
             key={index}
             variant={array[index]}
-            style={{ marginLeft: 5 }}
+            style={{ marginRight: 5, marginBottom: 10 }}
             color="primary"
             onClick={() => {
               handleClick(index);

@@ -6,7 +6,8 @@ import Input from "@material-ui/core/Input";
 
 const useStyles = makeStyles({
   root: {
-    width: 280
+    width: 280,
+    marginBottom: 10
   },
   input: {
     width: 100
