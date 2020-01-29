@@ -12,8 +12,11 @@ const useStyles = makeStyles({
     width: 100
   }
 });
-
-export default function InputSlider(props) {
+/**
+ * function to determine speed of sorting algorithms through user input
+ * @param {*} props
+ */
+export default function Speed(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(100);
 

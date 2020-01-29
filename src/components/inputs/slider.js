@@ -3,6 +3,9 @@ import { withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 
+/**
+ * custom slider
+ */
 const PrettoSlider = withStyles({
   root: {
     color: "#52af77",
@@ -33,6 +36,11 @@ const PrettoSlider = withStyles({
     borderRadius: 4
   }
 })(Slider);
+
+/**
+ * set slider value
+ * @param {*} props
+ */
 export default function CustomizedSlider(props) {
   return (
     <div>

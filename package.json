@@ -17,10 +17,11 @@
     "node": "10.16.2"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "node server/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

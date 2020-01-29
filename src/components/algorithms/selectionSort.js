@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
+/**
+ * Selection Sort class.
+ * @class
+ */
 class SelectionSort extends Component {
   constructor(props) {
     super(props);
@@ -16,11 +20,37 @@ class SelectionSort extends Component {
     };
   }
 
+  /**
+   * prevents memory leak
+   */
+  _isMounted = false;
+
+  /**
+   * triggers componentDidUpdate
+   */
   componentDidMount() {
-    // _.delay(this.selectionSort.bind(this), 100);
+    this._isMounted = true;
     this.setState({ completed: 1 });
   }
 
+  /**
+   * call selectionSort animation function every unit speed of time
+   */
+  componentDidUpdate(prevProps, prevState) {
+    this._isMounted = true;
+    _.delay(this.selectionSort.bind(this), this.props.speed);
+  }
+
+  /**
+   * unmount component and prevent further state updating
+   */
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  /**
+   * selectionSort algorithm and animation
+   */
   selectionSort() {
     let { j, length, i, iMin, jPrev, iPrev } = this.state;
     let array = [...this.state.rectangles];
@@ -30,12 +60,7 @@ class SelectionSort extends Component {
         ...array[length - 1],
         color: "lightblue"
       };
-      // if (iPrev !== j) {
-      //   array[iPrev] = {
-      //     ...array[iPrev],
-      //     color: "lightblue"
-      //   };
-      // }
+
       array[jPrev] = {
         ...array[jPrev],
         color: "lightblue"
@@ -51,7 +76,7 @@ class SelectionSort extends Component {
           }
           iMin = i;
         }
-        console.log(iPrev);
+
         array[i] = {
           ...array[i],
           color: "green"
@@ -73,13 +98,14 @@ class SelectionSort extends Component {
           ...array[j],
           color: "yellow"
         };
-
-        this.setState({
-          i: i + 1,
-          iMin: iMin,
-          rectangles: array,
-          iPrev: iPrev
-        });
+        if (this._isMounted) {
+          this.setState({
+            i: i + 1,
+            iMin: iMin,
+            rectangles: array,
+            iPrev: iPrev
+          });
+        }
         return;
       }
 
@@ -92,23 +118,24 @@ class SelectionSort extends Component {
         ...array[iMin],
         color: "lightblue"
       };
-      this.setState({
-        rectangles: array,
-        j: j + 1,
-        iMin: j + 1,
-        i: j + 2,
-        jPrev: iMin
-      });
+      if (this._isMounted) {
+        this.setState({
+          rectangles: array,
+          j: j + 1,
+          iMin: j + 1,
+          i: j + 2,
+          jPrev: iMin
+        });
+      }
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    _.delay(this.selectionSort.bind(this), this.props.speed);
-  }
-
+  /**
+   * render each rectangle on the screen
+   */
   rec = (size, index) => {
     return (
-      <div>
+      <div key={index}>
         <div
           style={{
             height: size.size,
@@ -134,7 +161,6 @@ class SelectionSort extends Component {
           right: "25%"
         }}
       >
-        {/* {console.log(this.state.i)} */}
         {this.state.rectangles.map((size, index) => {
           return this.rec(size, index);
         })}

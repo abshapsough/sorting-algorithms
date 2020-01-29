@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
+/**
+ * Bubble Sort class.
+ * @class
+ */
 class BubbleSort extends Component {
   constructor(props) {
     super(props);
@@ -12,13 +16,42 @@ class BubbleSort extends Component {
       length: null
     };
   }
+  /**
+   * prevents memory leak
+   */
+  _isMounted = false;
+
+  /**
+   * triggers componentDidUpdate
+   */
   componentDidMount() {
+    this._isMounted = true;
+
     this.setState({
       i: 0,
       length: this.props.rectangles.length
     });
   }
 
+  /**
+   * call selectionSort animation function every unit speed of time
+   */
+  componentDidUpdate(prevProps, prevState) {
+    this._isMounted = true;
+
+    _.delay(this.bubbleSort.bind(this), this.props.speed);
+  }
+
+  /**
+   * unmount component and prevent further state updating
+   */
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  /**
+   * bubbleSort algorithm and animation
+   */
   bubbleSort() {
     const { i, j, length } = this.state;
 
@@ -69,27 +102,30 @@ class BubbleSort extends Component {
             size: rect[i].size,
             color: "lightblue"
           };
-
-          this.setState({
-            j: j + 1,
-            i: 0
-          });
+          if (this._isMounted) {
+            this.setState({
+              j: j + 1,
+              i: 0
+            });
+          }
         } else {
-          this.setState({
-            i: i + 1,
-            rectangles: rect
-          });
+          if (this._isMounted) {
+            this.setState({
+              i: i + 1,
+              rectangles: rect
+            });
+          }
         }
       }
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-    _.delay(this.bubbleSort.bind(this), this.props.speed);
-  }
 
+  /**
+   * render each rectangle on the screen
+   */
   rectangle = (size, index) => {
     return (
-      <div>
+      <div key={index}>
         <div
           style={{
             height: size.size,

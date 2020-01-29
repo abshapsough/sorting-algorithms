@@ -1,6 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 
+/**
+ * set state of sorting buttons
+ * @param {*} props
+ */
 export default function Buttons(props) {
   const [array, setArray] = React.useState([...props.variant]);
   const [unselect, setUnselect] = React.useState(2);

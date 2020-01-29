@@ -37,6 +37,11 @@ class Body extends Component {
   speed = value => {
     this.setState({ speed: value, start: false });
   };
+
+  /**
+   * Sets size of sorting animation
+   * @function
+   */
   slider = value => {
     this.setState({
       rectangles: Array.from({ length: value }, () => ({
@@ -48,6 +53,10 @@ class Body extends Component {
     });
   };
 
+  /**
+   * Choose algorithm buttons
+   * @function
+   */
   button = value => {
     this.setState({
       start: false,
@@ -55,6 +64,10 @@ class Body extends Component {
     });
   };
 
+  /**
+   * Determine which algorithm to run after start button is called
+   * @function
+   */
   animation = () => {
     if (this.state.start) {
       if (this.state.algorithm === "Bubble Sort") {
@@ -134,7 +147,11 @@ class Body extends Component {
               <Button
                 variant="contained"
                 onClick={() => {
-                  this.setState({ start: true });
+                  if (this.state.algorithm === "Select a sorting algorithm!") {
+                    this.setState({ start: true, algorithm: "Bubble Sort" });
+                  } else {
+                    this.setState({ start: true });
+                  }
                 }}
                 color="secondary"
               >
@@ -146,9 +163,11 @@ class Body extends Component {
             container
             justify="center"
             alignItems="center"
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 50 }}
           >
-            <Grid item>{this.state.algorithm}</Grid>
+            <Grid item>
+              <div style={{ fontSize: 30 }}>{this.state.algorithm}</div>
+            </Grid>
           </Grid>
         </Container>
 
@@ -158,7 +177,7 @@ class Body extends Component {
             height: "50%",
             borderBottom: "1px solid black",
             position: "absolute",
-            marginTop: "10%",
+            marginTop: "5%",
             textAlign: "center"
           }}
         >

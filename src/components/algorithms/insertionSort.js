@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
+/**
+ * Insertion Sort class.
+ * @class
+ */
 class insertionSort extends Component {
   constructor(props) {
     super(props);
@@ -14,8 +18,18 @@ class insertionSort extends Component {
       completed: 0
     };
   }
+
+  /**
+   * prevents memory leak
+   */
+  _isMounted = false;
+
+  /**
+   * triggers componentDidUpdate
+   * and sets initial state
+   */
   componentDidMount() {
-    // _.delay(this.selectionSort.bind(this), 100);
+    this._isMounted = true;
     let array = [...this.state.rectangles];
     array[0] = {
       ...array[0],
@@ -24,6 +38,23 @@ class insertionSort extends Component {
     this.setState({ completed: 1, rectangles: array });
   }
 
+  /**
+   * call selectionSort animation function every unit speed of time
+   */
+  componentDidUpdate(prevProps, prevState) {
+    this._isMounted = true;
+    _.delay(this.insertionSort.bind(this), this.props.speed);
+  }
+
+  /**
+   * unmount component and prevent further state updating
+   */
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  /**
+   * insertionSort algorithm and animation
+   */
   insertionSort() {
     let { length, setJ, i, j } = this.state;
     let array = [...this.state.rectangles];
@@ -47,27 +78,26 @@ class insertionSort extends Component {
         ...array[i],
         color: "red"
       };
-      this.setState({
-        j: i,
-        i: i + 1,
-        rectangles: array
-      });
+      if (this._isMounted) {
+        this.setState({
+          j: i,
+          i: i + 1,
+          rectangles: array
+        });
+      }
     } else {
-      // array[j] = {
-      //   ...array[j],
-      //   color: "green"
-      // };
-      this.setState({ j: j - 1, setJ: false, rectangles: array });
+      if (this._isMounted) {
+        this.setState({ j: j - 1, setJ: false, rectangles: array });
+      }
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    _.delay(this.insertionSort.bind(this), this.props.speed);
-  }
-
+  /**
+   * render each rectangle on the screen
+   */
   rec = (size, index) => {
     return (
-      <div>
+      <div key={index}>
         <div
           style={{
             height: size.size,
@@ -93,7 +123,6 @@ class insertionSort extends Component {
           right: "25%"
         }}
       >
-        {/* {console.log(this.state.i)} */}
         {this.state.rectangles.map((size, index) => {
           return this.rec(size, index);
         })}
