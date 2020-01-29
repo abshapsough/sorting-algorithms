@@ -5,7 +5,7 @@ export default function Buttons(props) {
   const [array, setArray] = React.useState([...props.variant]);
   const [unselect, setUnselect] = React.useState(2);
   function handleClick(index) {
-    let arr = array;
+    let arr = [...array];
     arr[unselect] = "outlined";
     arr[index] = "contained";
 
